@@ -1,0 +1,4 @@
+*.vs
+*ToDoListForms/.vs
+*ToDoListForms/bin
+*ToDoListForms/obj
