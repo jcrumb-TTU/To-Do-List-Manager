@@ -1,28 +1,34 @@
 CREATE TABLE tblUsers (
-	userID INT NOT NULL AUTO_INCREMENT,
+	userID VARCHAR(32) NOT NULL,
     firstName VARCHAR(50),
     lastName VARCHAR(50),
-    userName VARCHAR(50),
-    Password VARCHAR(50),
+    userName VARCHAR(30),
+    Password VARCHAR(32),
     PRIMARY KEY (userID)
 );
 
 CREATE TABLE tblTasks (
-	taskID INT NOT NULL AUTO_INCREMENT,
+	taskID VARCHAR(32) NOT NULL,
     taskName VARCHAR(400),
     priorityLevel INT,
-    creationDate DATETIME,
-    completionDate DATETIME,
     isComplete BOOL,
-    userID VARCHAR(50),
+    userID VARCHAR(32),
     PRIMARY KEY (taskID),
     FOREIGN KEY (userID) REFERENCES tblUsers (userID)
 );
 
-CREATE TABLE tblDueDates (
-	dateID INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE tblDates (
+	dateID VARCHAR(32) NOT NULL,
 	dueDate DATETIME,
-    taskID VARCHAR(50)
+    taskID VARCHAR(32)
     PRIMARY KEY (dateID),
     FOREIGN KEY (taskID) REFERENCES tblTasks (taskID)
+);
+
+CREATE TABLE tblSession (
+	sessionID VARCHAR(32),
+    Timestamp DATETIME,
+    userName VARCHAR(32),
+    PRIMARY KEY (SessionID),
+    FOREIGN KEY (userName) REFERENCES tblUsers (userID)
 );
