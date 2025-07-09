@@ -48,6 +48,23 @@ namespace ToDoListForms
 
                 MySqlConnection con = new MySqlConnection(conString);
 
+                con.Open();
+
+                string query = "INSERT INTO tblUsers VALUES('" + userGuid + "','" + firstName + "','" + lastName + "','" + userName + "','" + password + "')";
+
+                MySqlCommand cmd = new MySqlCommand(query, con);
+
+                int i = cmd.ExecuteNonQuery();
+
+                if (i > -1)
+                {
+                    MessageBox.Show("Successful Registration.");
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong. Please try again.");
+                }
+
             }
         }
     }
