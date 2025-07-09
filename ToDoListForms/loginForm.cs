@@ -13,7 +13,7 @@ namespace ToDoListForms
         }
 
         //string connection, source of format from https://learn.microsoft.com/en-us/windows/apps/develop/data-access/mysql-database
-        const string dbConnection = "Server=localhost;Database=todomanager;Uid=root;pwd=examplepassword;";
+        const string conString = "Server=localhost;Database=todomanager;Uid=root;pwd=examplepassword;";
 
         private void loginButton_Click(object sender, EventArgs e)
         {
@@ -38,6 +38,15 @@ namespace ToDoListForms
             }
             else
             {
+                //Creates a unique ID to associate with the user and converts guid
+                //to 32 digits
+                Guid guid = Guid.NewGuid();
+                string userGuid = guid.ToString("N");
+
+                //Debugging statement
+                //MessageBox.Show(userGuid);
+
+                MySqlConnection con = new MySqlConnection(conString);
 
             }
         }
