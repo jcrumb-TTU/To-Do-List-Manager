@@ -6,7 +6,8 @@ namespace ToDoListForms
 {
     public partial class Form1 : Form
     {
-        string dbConnection = "Server=localhost;Database=todomanager;Uid=root;pwd=examplepassword"
+        //string connection, source of format from https://learn.microsoft.com/en-us/windows/apps/develop/data-access/mysql-database
+        const string dbConnection = "Server=localhost;Database=todomanager;Uid=root;pwd=examplepassword"
 
         public Form1()
         {
