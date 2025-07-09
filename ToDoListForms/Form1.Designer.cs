@@ -91,6 +91,7 @@
             loginButton.TabIndex = 5;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = false;
+            loginButton.Click += loginButton_Click;
             // 
             // orLabel
             // 
