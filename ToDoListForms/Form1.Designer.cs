@@ -44,7 +44,7 @@
             registrationLabel = new Label();
             lastNameLabel = new Label();
             firstNameLabel = new Label();
-            button1 = new Button();
+            regButton = new Button();
             SuspendLayout();
             // 
             // userNameBox
@@ -191,16 +191,17 @@
             firstNameLabel.TabIndex = 16;
             firstNameLabel.Text = "First Name";
             // 
-            // button1
+            // regButton
             // 
-            button1.BackColor = SystemColors.Highlight;
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(390, 300);
-            button1.Name = "button1";
-            button1.Size = new Size(76, 26);
-            button1.TabIndex = 17;
-            button1.Text = "Register";
-            button1.UseVisualStyleBackColor = false;
+            regButton.BackColor = SystemColors.Highlight;
+            regButton.ForeColor = SystemColors.ButtonHighlight;
+            regButton.Location = new Point(390, 300);
+            regButton.Name = "regButton";
+            regButton.Size = new Size(76, 26);
+            regButton.TabIndex = 17;
+            regButton.Text = "Register";
+            regButton.UseVisualStyleBackColor = false;
+            regButton.Click += regButton_Click;
             // 
             // Form1
             // 
@@ -208,7 +209,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Menu;
             ClientSize = new Size(559, 348);
-            Controls.Add(button1);
+            Controls.Add(regButton);
             Controls.Add(firstNameLabel);
             Controls.Add(lastNameLabel);
             Controls.Add(registrationLabel);
@@ -248,6 +249,6 @@
         private Label registrationLabel;
         private Label lastNameLabel;
         private Label firstNameLabel;
-        private Button button1;
+        private Button regButton;
     }
 }
