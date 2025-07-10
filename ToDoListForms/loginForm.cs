@@ -15,13 +15,31 @@ namespace ToDoListForms
         //string connection, source of format from https://learn.microsoft.com/en-us/windows/apps/develop/data-access/mysql-database
         const string conString = "Server=localhost;Database=todomanager;Uid=root;pwd=examplepassword;";
 
+        //This function allows the user to login to the system through the login form
         private void loginButton_Click(object sender, EventArgs e)
         {
             string userName = userNameBox.Text;
             string password = passwordBox.Text;
 
-            //debugging statement
-            //MessageBox.Show("You entered " + userName + " and " + password);
+            //Checks if fields are empty
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please enter your username and password into the fields.");
+            }
+            //Initiates connection and validates user
+            else
+            {
+                MySqlConnection con = new MySqlConnection(conString);
+                con.Open();
+
+                string query = "SELECT * FROM tblUsers WHERE userName ='" + userName + "' AND password = '" + password + "'";
+
+                MySqlCommand cmd = new MySqlCommand(query, con);
+
+                int i = cmd.ExecuteNonQuery();
+
+                
+            }
         }
 
         private void regButton_Click(object sender, EventArgs e)
@@ -55,7 +73,7 @@ namespace ToDoListForms
                 MySqlCommand cmd = new MySqlCommand(query, con);
 
                 int i = cmd.ExecuteNonQuery();
-
+                //Validates if registration was successful
                 if (i > -1)
                 {
                     MessageBox.Show("Successful Registration.");
