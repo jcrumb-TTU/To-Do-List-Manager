@@ -4,7 +4,7 @@ CREATE TABLE tblUsers (
     lastName VARCHAR(50),
     userName VARCHAR(30),
     Password VARCHAR(32),
-    PRIMARY KEY (userID)
+    PRIMARY KEY (userID) ON DELETE CASCADE
 );
 
 CREATE TABLE tblTasks (
@@ -14,15 +14,15 @@ CREATE TABLE tblTasks (
     isComplete BOOL,
     userID VARCHAR(32),
     PRIMARY KEY (taskID),
-    FOREIGN KEY (userID) REFERENCES tblUsers (userID)
+    FOREIGN KEY (userID) REFERENCES tblUsers (userID) ON DELETE CASCADE
 );
 
 CREATE TABLE tblDates (
 	dateID VARCHAR(32) NOT NULL,
 	dueDate DATETIME,
-    taskID VARCHAR(32)
+    taskID VARCHAR(32),
     PRIMARY KEY (dateID),
-    FOREIGN KEY (taskID) REFERENCES tblTasks (taskID)
+    FOREIGN KEY (taskID) REFERENCES tblTasks (taskID) ON DELETE CASCADE
 );
 
 CREATE TABLE tblSession (
@@ -30,5 +30,5 @@ CREATE TABLE tblSession (
     Timestamp DATETIME,
     userName VARCHAR(32),
     PRIMARY KEY (SessionID),
-    FOREIGN KEY (userName) REFERENCES tblUsers (userID)
+    FOREIGN KEY (userName) REFERENCES tblUsers (userID) ON DELETE CASCADE
 );
