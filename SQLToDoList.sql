@@ -4,7 +4,7 @@ CREATE TABLE tblUsers (
     lastName VARCHAR(50),
     userName VARCHAR(30),
     Password VARCHAR(32),
-    PRIMARY KEY (userID) ON DELETE CASCADE
+    PRIMARY KEY (userID)
 );
 
 CREATE TABLE tblTasks (
