@@ -1,4 +1,7 @@
 using System;
+using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -32,13 +35,15 @@ namespace ToDoListForms
                 MySqlConnection con = new MySqlConnection(conString);
                 con.Open();
 
-                string query = "SELECT * FROM tblUsers WHERE userName ='" + userName + "' AND password = '" + password + "'";
-
+                string query = "SELECT * FROM tblUsers WHERE userName = @username AND Password = @password";
                 MySqlCommand cmd = new MySqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", userName);
+                cmd.Parameters.AddWithValue("@password", password);
+                MySqlDataAdapter daAll = new MySqlDataAdapter(cmd);
+                DataSet dsAll = new DataSet();
+                daAll.Fill(dsAll);
+                int totalRecords = dsAll.Tables[0].Rows.Count;
 
-                int i = cmd.ExecuteNonQuery();
-
-                
             }
         }
 
@@ -68,10 +73,14 @@ namespace ToDoListForms
 
                 con.Open();
 
-                string query = "INSERT INTO tblUsers VALUES('" + userGuid + "','" + firstName + "','" + lastName + "','" + userName + "','" + password + "')";
+                string query = "INSERT INTO tblUsers VALUES(@userGuid, @firstName, @lastName, @userName, @password)";
 
                 MySqlCommand cmd = new MySqlCommand(query, con);
-
+                cmd.Parameters.AddWithValue("@userGuid", userGuid);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@username", userName);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@password", password);
                 int i = cmd.ExecuteNonQuery();
                 //Validates if registration was successful
                 if (i > -1)
