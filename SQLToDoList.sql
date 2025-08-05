@@ -3,7 +3,7 @@ CREATE TABLE tblUsers (
     firstName VARCHAR(50),
     lastName VARCHAR(50),
     userName VARCHAR(30),
-    Password VARCHAR(32),
+    passwordHash VARCHAR(255) NOT NULL,
     PRIMARY KEY (userID)
 );
 
