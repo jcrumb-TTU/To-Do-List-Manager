@@ -3,6 +3,7 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using BCrypt.Net;
 using MySql.Data.MySqlClient;
 
 namespace ToDoListForms
@@ -32,10 +33,12 @@ namespace ToDoListForms
             //Initiates connection and validates user
             else
             {
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
                 MySqlConnection con = new MySqlConnection(conString);
                 con.Open();
 
-                string query = "SELECT * FROM tblUsers WHERE userName = @username AND Password = @password";
+                string query = "SELECT * FROM tblUsers WHERE userName = @username AND Password = @hashedPassword";
                 MySqlCommand cmd = new MySqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", userName);
                 cmd.Parameters.AddWithValue("@password", password);
