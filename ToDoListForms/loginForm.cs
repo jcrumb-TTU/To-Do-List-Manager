@@ -37,7 +37,7 @@ namespace ToDoListForms
             MySqlConnection con = new MySqlConnection(conString);
             con.Open();
 
-            string query = "SELECT username FROM tblUsers WHERE userName = @username";
+            string query = "SELECT * FROM tblUsers WHERE userName = @username";
             MySqlCommand cmd = new MySqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", userName);
 
@@ -48,57 +48,41 @@ namespace ToDoListForms
 
             if (totalRecords == 1)
             {
-                string query2 = "SELECT passwordHash FROM tblUsers WHERE username = @username";
+                string storedHash = dsAll.Tables[0].Rows[0]["passwordHash"].ToString();
 
-                MySqlCommand cmd2 = new MySqlCommand(query2, con);
-                cmd2.Parameters.AddWithValue("@username", userName);
-
-                MySqlDataReader reader = cmd2.ExecuteReader();
-
-                if (reader.Read())
+                if (Argon2.Verify(storedHash, password))
                 {
-                    string storedHash = reader.GetString("passwordHash");
+                    MessageBox.Show("Login Successful");
 
-                    if (Argon2.Verify(storedHash, password))
-                    {
-                        MessageBox.Show("Login Successful");
+                    userNameBox.Text = string.Empty;
+                    passwordBox.Text = string.Empty;
 
-                        reader.Close();
+                    string sessionGuid = Guid.NewGuid().ToString("N");
 
-                        userNameBox.Text = string.Empty;
-                        passwordBox.Text = string.Empty;
+                    string query2 = "INSERT INTO tblSession (sessionID, Timestamp, userName) VALUES (@sessionGuid, @loginTime, @userName)";
 
-                        string sessionGuid = Guid.NewGuid().ToString("N");
+                    MySqlCommand cmd2 = new MySqlCommand(query2, con);
+                    cmd2.Parameters.AddWithValue("@sessionGuid", sessionGuid);
+                    cmd2.Parameters.AddWithValue("@loginTime", DateTime.Now);
+                    cmd2.Parameters.AddWithValue("@userName", dsAll.Tables[0].Rows[0]["userID"].ToString());
 
-                        string query3 = "INSERT INTO tblSession (sessionID, Timestamp, userName) VALUES (@sessionGuid, @loginTime, @userName)";
+                    cmd2.ExecuteNonQuery();
 
-                        MySqlCommand cmd3 = new MySqlCommand(query3, con);
-                        cmd3.Parameters.AddWithValue("@sessionGuid", sessionGuid);
-                        cmd3.Parameters.AddWithValue("@loginTime", DateTime.Now);
-                        cmd3.Parameters.AddWithValue("@userName", userName);
+                    mainForm Dashboard = new mainForm();
 
-                        cmd3.ExecuteNonQuery();
+                    Dashboard.Show();
 
-                        mainForm newForm = new mainForm();
-
-                        newForm.Show();
-
-                        this.Hide();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Login Failed: Username or Password Incorrect.");
-                    }
-                 }
-                 else
-                 {
-                     MessageBox.Show("Login Failed: Username or Password not found.");
-                 }
-
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Login Failed: Username or Password Incorrect.");
+                }
             } else
-            {
-                MessageBox.Show("User does not exist");
-            }
+              {
+                MessageBox.Show("Login Failed: Username or Password not found.");
+              }
+            con.Close();
         }
         //This function allows the user to register a new account through the registration form
         private void regButton_Click(object sender, EventArgs e)
